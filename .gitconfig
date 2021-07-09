@@ -1,0 +1,69 @@
+[user]
+	name = Chris Ranasinghe
+	email = chris.ranasinghe@decipher.com.au
+[diff]
+    tool = bc2
+	guitool = kdiff3
+[difftool]
+    prompt = false
+[difftool "bc2"]
+    path = \"C:/Program Files (x86)/Beyond Compare 2/bc2.exe\" \"$LOCAL\" \"$REMOTE\"
+    trustExitCode = false
+[merge]
+    tool = bc2
+	tool = kdiff3
+[mergetool]
+    prompt = false
+[mergetool "bc2"]
+    #trustExitCode = true
+    cmd = \"C:/Program Files (x86)/Beyond Compare 2/bc2.exe\" \"$LOCAL\" \"$REMOTE\" \"$BASE\" \"$MERGED\"
+[alias]
+	# Delete all orig files: (load bash and then) find . -name "*.orig" -type f -delete
+	ct = rev-list @{u}.. --count
+	lg = log @{u}..
+	plg= log --pretty=oneline --abbrev-commit
+	showdel= log --diff-filter=D --summary # Show deleted files
+	st = status
+	last = log -1 HEAD
+	c = commit
+	co = checkout
+	a = add .
+	pl = pull
+	ltag = log -1
+	graph = log --graph --oneline
+	conflict = diff --name-only --diff-filter=U
+	listalias = config --get-regexp alias
+	compare = log --left-right --graph --cherry-mark --oneline
+	tagdel = push --delete origin
+	pplg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	cdetails = cat-file -p
+    conflicts = !git ls-files --unmerged | cut -f2 | sort -u
+	compare-master= !sh -c 'git rev-list --left-right --count master...$1^'
+    tagcommit = rev-list -n 1
+	pr = "!f() { exec vsts code pr \"$@\"; }; f"
+	repo = "!f() { exec vsts code repo \"$@\"; }; f"
+	cleanup = !git branch --merged | grep -e release/* -e feature/* -e bugfix/* | xargs -n 1 git branch -d
+	initsub = !"git submodule sync && git submodule update --init --force"
+	updatesub = !"git submodule sync && git submodule update --remote --recursive"
+
+[mergetool "kdiff3"]
+	path = C:/Program Files/KDiff3/kdiff3.exe
+	trustExitCode = false
+[difftool "kdiff3"]
+	path = C:/Program Files/KDiff3/kdiff3.exe
+	trustExitCode = false
+[url "http://github.com/"]
+	insteadOf = https://github.com/
+[core]
+	editor = \"C:\\vscode\\Code.exe\" --wait
+[http]
+	sslBackend = openssl
+	sslCAInfo = "C:/Program Files/Git/mingw64/ssl/certs/ca-bundle.crt"
+	sslverify = false
+[init]
+	defaultBranch = main
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
